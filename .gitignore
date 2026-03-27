@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+Thumbs.db
+.claude/
+reference/
+images/Logo 1.png
+*.mov

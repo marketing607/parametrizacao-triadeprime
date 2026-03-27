@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAIO-X Tributário | A Tríade Prime</title>
+  <meta name="description" content="Pare de sustentar o governo sem necessidade. O RAIO-X Tributário revela quanto você paga a mais em impostos e como recuperar esse dinheiro.">
+  <meta property="og:title" content="RAIO-X Tributário | A Tríade Prime">
+  <meta property="og:description" content="8 em cada 10 empresários pagam 3x mais impostos do que deveriam.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            prime: {
+              black: '#0a0a0a',
+              dark: '#111111',
+              darker: '#0d0d0d',
+              olive: '#0f1a12',
+              card: '#141414',
+              neon: '#00e676',
+              'neon-bright': '#33ff99',
+              gold: '#c9a84c',
+              'gold-light': '#e2c970',
+              red: '#ef4444',
+              muted: '#9ca3af',
+              border: '#1c1c1c',
+              'border-olive': '#1f2e22',
+            }
+          },
+          fontFamily: {
+            display: ['"Montserrat"', 'system-ui', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            body: ['"Inter"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    :root {
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *:focus-visible {
+      outline: 2px solid #c9a84c;
+      outline-offset: 3px;
+    }
+
+    /* ---- CTA Button ---- */
+    .cta-btn {
+      display: inline-block;
+      background-color: #00e676;
+      color: #0a0a0a;
+      font-family: 'Montserrat', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 0.875rem;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 4px 24px rgba(0, 230, 118, 0.25),
+        0 0 60px rgba(0, 230, 118, 0.08);
+      transition-property: transform, box-shadow, opacity;
+      transition-duration: 0.3s;
+      transition-timing-function: var(--spring);
+      cursor: pointer;
+    }
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition-property: width, height, opacity;
+      transition-duration: 0.5s;
+      transition-timing-function: ease;
+      opacity: 0;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 8px 32px rgba(0, 230, 118, 0.4),
+        0 0 80px rgba(0, 230, 118, 0.15);
+    }
+    .cta-btn:hover::after {
+      width: 300px;
+      height: 300px;
+      opacity: 0;
+    }
+    .cta-btn:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 0 2px 12px rgba(0, 230, 118, 0.25);
+    }
+    .cta-btn:focus-visible {
+      outline: 2px solid #c9a84c;
+      outline-offset: 4px;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow:
+          0 4px 24px rgba(0, 230, 118, 0.25),
+          0 0 60px rgba(0, 230, 118, 0.08);
+      }
+      50% {
+        box-shadow:
+          0 4px 32px rgba(0, 230, 118, 0.55),
+          0 0 90px rgba(0, 230, 118, 0.22);
+      }
+    }
+    .cta-pulse {
+      animation: pulse-glow 2.5s ease-in-out infinite;
+    }
+    .cta-pulse:hover {
+      animation: none;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .cta-btn .shimmer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* ---- Pillar Cards ---- */
+    .pillar-card {
+      transition-property: border-color, box-shadow, transform;
+      transition-duration: 0.35s;
+      transition-timing-function: ease;
+    }
+    .pillar-card:hover {
+      border-color: rgba(0, 230, 118, 0.25);
+      box-shadow: 0 0 40px rgba(0, 230, 118, 0.07), 0 8px 32px rgba(0, 0, 0, 0.4);
+      transform: translateY(-4px);
+    }
+
+    /* ---- Image Overlay ---- */
+    .img-overlay {
+      position: relative;
+      overflow: hidden;
+    }
+    .img-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0) 30%, rgba(10, 10, 10, 0.85) 100%);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    /* ---- Price Lines ---- */
+    .price-line {
+      transition-property: background-color;
+      transition-duration: 0.2s;
+      transition-timing-function: ease;
+    }
+    .price-line:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* ---- Carousel ---- */
+    .carousel-track {
+      display: flex;
+      gap: 1.5rem;
+      transition-property: transform;
+      transition-duration: 0.6s;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .carousel-item {
+      flex: 0 0 100%;
+      min-width: 0;
+    }
+    @media (min-width: 640px) {
+      .carousel-item { flex: 0 0 calc(50% - 0.75rem); }
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: none;
+      background: #1c1c1c;
+      cursor: pointer;
+      padding: 0;
+      transition-property: background-color, transform;
+      transition-duration: 0.25s;
+      transition-timing-function: ease;
+    }
+    .carousel-dot:hover {
+      background: #333;
+    }
+    .carousel-dot.active {
+      background: #00e676;
+      transform: scale(1.3);
+    }
+    .carousel-dot:focus-visible {
+      outline: 2px solid #c9a84c;
+      outline-offset: 2px;
+    }
+
+    /* ---- Fade-in animations ---- */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .animate-on-scroll.visible {
+      animation: fadeInUp 0.7s var(--ease-out-expo) forwards;
+    }
+
+    /* ---- Scrollbar ---- */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #1c1c1c; border-radius: 3px; }
+  </style>
+
+  <!-- Meta Pixel / GTM placeholder -->
+  <!-- <script>...</script> -->
+</head>
+
+<body class="bg-prime-black text-white font-body antialiased">
+
+  <!-- ============================================ -->
+  <!-- SECTION 1: HERO                              -->
+  <!-- ============================================ -->
+  <section class="relative min-h-screen flex items-center overflow-hidden">
+    <!-- Background green shades -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-[-10%] left-[-5%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_60%)]"></div>
+      <div class="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(15,26,18,0.6)_0%,transparent_70%)]"></div>
+      <div class="absolute bottom-0 left-[30%] w-[600px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
+      <div class="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(201,168,76,0.03)_0%,transparent_70%)]"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 lg:py-0">
+      <!-- Logo -->
+      <img
+        src="images/Logo_2-removebg-preview.png"
+        alt="A Tríade Prime"
+        class="h-10 md:h-14 mb-10 lg:mb-16"
+        loading="eager"
+        decoding="async"
+      >
+
+      <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <!-- Left: Copy -->
+        <div class="order-2 lg:order-1">
+          <h1 class="font-serif font-black text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-[-0.02em] mb-6">
+            <span class="text-prime-gold">CONHEÇA O</span><br>
+            <span class="text-prime-neon">RAIO-X TRIBUTÁRIO</span>
+          </h1>
+
+          <h2 class="font-display font-bold text-lg sm:text-xl lg:text-2xl leading-snug text-white/90 mb-6 max-w-xl">
+            A maioria das empresas não quebram por falta de faturamento, mas por <span class="text-prime-red">falta de visão tributária.</span>
+          </h2>
+
+          <p class="text-base sm:text-lg text-prime-muted leading-[1.7] mb-3 max-w-xl">
+            Se você não revisa seus <span class="text-prime-red font-bold">IMPOSTOS</span>, você provavelmente está sendo <strong class="text-white">roubado pela burocracia.</strong>
+          </p>
+
+          <p class="text-base sm:text-lg leading-[1.7] mb-8 max-w-xl">
+            <strong class="text-white">8 EM CADA 10 EMPRESÁRIOS PAGAM 3x MAIS <span class="text-prime-red">IMPOSTOS</span> DO QUE DEVERIAM.</strong>
+            <span class="text-prime-muted"> Pare de sustentar o <span class="text-prime-red font-bold">GOVERNO</span> sem necessidade e tenha visão absoluta do seu caixa.</span>
+          </p>
+
+          <a href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20" class="cta-btn text-sm sm:text-base px-6 sm:px-8 py-4">
+            <span class="shimmer"></span>
+            QUERO CURAR A CEGUEIRA DO MEU CAIXA
+          </a>
+        </div>
+
+        <!-- Right: Consultant Photo -->
+        <div class="order-1 lg:order-2 img-overlay rounded-xl">
+          <img
+            src="images/hero-consultant.jpg"
+            alt="Especialista tributário da Tríade Prime"
+            class="w-full max-w-md lg:max-w-none mx-auto rounded-xl object-cover"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom fade -->
+    <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-prime-black to-transparent pointer-events-none" aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ============================================ -->
+  <!-- SECTION 2: THE PAIN AND TRANSITION           -->
+  <!-- ============================================ -->
+  <section class="relative py-20 lg:py-28 bg-prime-dark overflow-hidden">
+    <!-- Green shade background -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
+    </div>
+
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 text-center">
+      <p class="font-serif font-bold text-xl sm:text-2xl md:text-3xl text-white leading-snug mb-8 italic animate-on-scroll">
+        À primeira vista, tudo parece sob controle...
+      </p>
+
+      <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mb-10 animate-on-scroll">
+        <span class="inline-flex items-center gap-2 text-prime-neon font-body font-semibold text-lg">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          Planilha OK.
+        </span>
+        <span class="inline-flex items-center gap-2 text-prime-neon font-body font-semibold text-lg">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          DRE OK.
+        </span>
+        <span class="inline-flex items-center gap-2 text-prime-neon font-body font-semibold text-lg">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          Impostos "em dia".
+        </span>
+      </div>
+
+      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-6 animate-on-scroll">
+        Mas a verdade é que a maioria das contabilidades te mantém apenas regular <em>(sendo otimista)</em>. Elas não apontam o caminho para pagar menos. Elas não revisam o passado.
+      </p>
+
+      <p class="text-base sm:text-lg leading-[1.7] mb-6 animate-on-scroll">
+        <strong class="text-prime-red">O resultado?</strong>
+        <span class="text-prime-muted">Você opera no escuro. Paga <span class="text-prime-red font-semibold">IMPOSTOS</span> em duplicidade, está no regime tributário errado e desconhece benefícios fiscais que seus concorrentes já usam.</span>
+      </p>
+
+      <p class="text-base sm:text-lg leading-[1.7] text-white animate-on-scroll">
+        <strong>O Raio-X Tributário não é contabilidade.</strong>
+        <span class="font-serif text-xl sm:text-2xl text-prime-gold italic block mt-2">É visão. Previsibilidade. Controle.</span>
+        <span class="text-prime-muted mt-2 block">É transformar o imposto em uma decisão estratégica, 100% dentro da legalidade.</span>
+      </p>
+    </div>
+
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ============================================ -->
+  <!-- SECTION 3: WHAT WE DELIVER (4 PILLARS)       -->
+  <!-- ============================================ -->
+  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden">
+    <!-- Green shades -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-[10%] left-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
+      <div class="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(15,26,18,0.5)_0%,transparent_65%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+      <!-- Section Header -->
+      <div class="text-center mb-14 lg:mb-20 animate-on-scroll">
+        <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] tracking-[-0.02em] text-white mb-3">
+          O QUE VAMOS ENTREGAR PARA VOCÊ?
+        </h2>
+        <p class="font-display font-bold text-base sm:text-lg text-prime-gold uppercase tracking-[0.08em]">
+          4 SERVIÇOS COMBINADOS EM UM ÚNICO PRODUTO:
+        </p>
+      </div>
+
+      <!-- Security Badge -->
+      <div class="flex justify-center mb-10 animate-on-scroll">
+        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-gold/30 rounded-full px-6 py-3 shadow-[0_0_30px_rgba(201,168,76,0.1)]">
+          <svg class="w-7 h-7 text-prime-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span class="font-display font-bold text-sm sm:text-base text-prime-gold uppercase tracking-wider">100% de Segurança Jurídica</span>
+        </div>
+      </div>
+
+      <!-- 4 Pillar Cards -->
+      <div class="grid md:grid-cols-2 gap-6 lg:gap-8 mb-14">
+        <!-- Card 1 -->
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+            </span>
+            <div>
+              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 01: Estudo Comparativo</p>
+              <p class="font-serif font-bold text-lg text-white">Regimes Tributários</p>
+            </div>
+          </div>
+          <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
+            Simulamos o seu cenário nos regimes do Simples Nacional, Lucro Presumido e Lucro Real. Vamos te provar matematicamente qual é a opção mais barata e segura para a sua operação hoje e para o futuro.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </span>
+            <div>
+              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 02: Máquina do Tempo</p>
+              <p class="font-serif font-bold text-lg text-white">Análise de Créditos (5 anos)</p>
+            </div>
+          </div>
+          <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
+            Nós vasculhamos o seu passado. Fazemos o levantamento de todos os impostos pagos a maior ou indevidamente nos últimos 60 meses. O objetivo? Recuperar caixa que é seu por direito.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </span>
+            <div>
+              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 03: Pente-Fino</p>
+              <p class="font-serif font-bold text-lg text-white">Auditoria Completa</p>
+            </div>
+          </div>
+          <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
+            Uma revisão profunda (Contábil, Fiscal, Trabalhista e Previdenciária) de obrigações acessórias cruzadas com XMLs e notas fiscais. Encontramos os gargalos antes que a Receita Federal o faça.
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            </span>
+            <div>
+              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 04: Acelerador de Lucro</p>
+              <p class="font-serif font-bold text-lg text-white">Regimes Especiais (TTD)</p>
+            </div>
+          </div>
+          <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
+            Analisamos a viabilidade da sua empresa se enquadrar em Regimes Especiais de Tributação e Benefícios Fiscais Estaduais ou Federais, te colocando à frente da concorrência com margens maiores.
+          </p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center animate-on-scroll">
+        <a href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20" class="cta-btn text-sm sm:text-base px-6 sm:px-8 py-4">
+          <span class="shimmer"></span>
+          QUERO TER VISÃO COMPLETA DA MINHA OPERAÇÃO
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================ -->
+  <!-- SECTION 4: DEPOIMENTOS (Carousel)            -->
+  <!-- ============================================ -->
+  <section class="relative py-20 lg:py-28 bg-prime-dark overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+
+    <!-- Green shades -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-[30%] left-[50%] translate-x-[-50%] w-[800px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
+      <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl tracking-[-0.02em] text-center mb-4 animate-on-scroll">
+        DEPOIMENTOS REAIS DE QUEM CONTRATOU<br>
+        <span class="text-prime-gold font-serif italic">A Tríade Prime.</span>
+      </h2>
+
+      <p class="text-prime-muted text-center text-base sm:text-lg mb-12 animate-on-scroll">Resultados comprovados por quem confiou no nosso trabalho.</p>
+
+      <!-- Carousel Container -->
+      <div class="relative animate-on-scroll" id="testimonial-carousel">
+        <div class="overflow-hidden rounded-xl">
+          <div class="carousel-track" id="carousel-track">
+            <!-- Item 1: Screenshot Paula -->
+            <div class="carousel-item">
+              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
+                <img
+                  src="depo/depoimento-1.png"
+                  alt="Avaliação de Paula Del Ben — 5 estrelas"
+                  class="w-full rounded-lg"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+            </div>
+            <!-- Item 2: Screenshot Thomaz -->
+            <div class="carousel-item">
+              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
+                <img
+                  src="depo/depoimento-2.png"
+                  alt="Avaliação de Thomaz Caetano — 5 estrelas"
+                  class="w-full rounded-lg"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+            </div>
+            <!-- Item 3: Video 1 -->
+            <div class="carousel-item">
+              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
+                <video
+                  controls
+                  preload="metadata"
+                  class="w-full rounded-lg aspect-video object-cover"
+                >
+                  <source src="depo/depoimento-video-1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <!-- Item 4: Video 2 -->
+            <div class="carousel-item">
+              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
+                <video
+                  controls
+                  preload="metadata"
+                  class="w-full rounded-lg aspect-video object-cover"
+                >
+                  <source src="depo/depoimento-video-2.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <!-- Item 5: Video 3 -->
+            <div class="carousel-item">
+              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
+                <video
+                  controls
+                  preload="metadata"
+                  class="w-full rounded-lg aspect-video object-cover"
+                >
+                  <source src="depo/depoimento-video-3.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button id="carousel-prev" class="absolute top-1/2 -translate-y-1/2 -left-4 sm:-left-6 w-10 h-10 rounded-full bg-prime-card border border-prime-border flex items-center justify-center hover:border-prime-neon/40 hover:bg-prime-neon/10 transition-colors duration-200 z-10" aria-label="Anterior">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="carousel-next" class="absolute top-1/2 -translate-y-1/2 -right-4 sm:-right-6 w-10 h-10 rounded-full bg-prime-card border border-prime-border flex items-center justify-center hover:border-prime-neon/40 hover:bg-prime-neon/10 transition-colors duration-200 z-10" aria-label="Próximo">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="flex justify-center gap-3 mt-8" id="carousel-dots"></div>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ============================================ -->
+  <!-- SECTION 5: PRICE ANCHORING & OFFER           -->
+  <!-- ============================================ -->
+  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden">
+    <!-- Green shades -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-[5%] left-[10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
+      <div class="absolute bottom-[5%] right-[5%] w-[600px] h-[400px] bg-[radial-gradient(ellipse,rgba(15,26,18,0.5)_0%,transparent_65%)]"></div>
+    </div>
+
+    <!-- Decorative trident -->
+    <div class="relative z-10 flex justify-center mb-10 animate-on-scroll" aria-hidden="true">
+      <img
+        src="images/trident-horizontal.png"
+        alt=""
+        class="w-40 sm:w-52 opacity-50"
+        loading="lazy"
+        decoding="async"
+      >
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 text-center">
+      <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl tracking-[-0.02em] text-white mb-4 leading-tight animate-on-scroll">
+        APLIQUE O <span class="text-prime-neon">RAIO-X TRIBUTÁRIO</span> E OPERE COM <span class="font-serif italic text-prime-gold">VANTAGEM</span> SOBRE A CONCORRÊNCIA.
+      </h2>
+
+      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-4 animate-on-scroll">
+        Preencha o formulário e nossa equipe estratégica entrará em contato com você.
+      </p>
+
+      <p class="text-prime-muted text-sm sm:text-base italic mb-10 animate-on-scroll">
+        Se fôssemos cobrar por cada serviço do Raio-X de forma isolada em uma consultoria premium, este seria o valor:
+      </p>
+
+      <!-- Security Badge -->
+      <div class="flex justify-center mb-8 animate-on-scroll">
+        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-gold/30 rounded-full px-5 py-2.5 shadow-[0_0_25px_rgba(201,168,76,0.08)]">
+          <svg class="w-6 h-6 text-prime-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span class="font-display font-bold text-xs sm:text-sm text-prime-gold uppercase tracking-wider">100% de Segurança Jurídica</span>
+        </div>
+      </div>
+
+      <!-- Pricing Card -->
+      <div class="bg-prime-card rounded-xl border border-prime-border p-5 sm:p-8 text-left shadow-[0_8px_60px_rgba(0,0,0,0.5),0_0_40px_rgba(0,230,118,0.03)] mb-10 animate-on-scroll">
+        <div class="space-y-0">
+          <div class="price-line flex justify-between items-center py-4 border-b border-prime-border/60 gap-4">
+            <span class="text-white text-sm sm:text-base">Auditoria Fiscal</span>
+            <span class="text-prime-muted line-through text-sm sm:text-base whitespace-nowrap">R$ 15.000</span>
+          </div>
+          <div class="price-line flex justify-between items-center py-4 border-b border-prime-border/60 gap-4">
+            <span class="text-white text-sm sm:text-base">Mapeamento de Créditos (Últimos 5 anos)</span>
+            <span class="text-prime-muted line-through text-sm sm:text-base whitespace-nowrap">R$ 12.000</span>
+          </div>
+          <div class="price-line flex justify-between items-center py-4 border-b border-prime-border/60 gap-4">
+            <span class="text-white text-sm sm:text-base">Estudo Comparativo de Regimes</span>
+            <span class="text-prime-muted line-through text-sm sm:text-base whitespace-nowrap">R$ 8.000</span>
+          </div>
+          <div class="price-line flex justify-between items-center py-4 border-b border-prime-border/60 gap-4">
+            <span class="text-white text-sm sm:text-base">Análise de Regimes Especiais de Tributação</span>
+            <span class="text-prime-muted line-through text-sm sm:text-base whitespace-nowrap">R$ 10.000</span>
+          </div>
+
+          <!-- Total -->
+          <div class="flex justify-between items-center pt-6 mt-2 gap-4">
+            <span class="font-display font-bold text-lg sm:text-xl text-white">Soma Total do Valor Entregue</span>
+            <span class="font-serif font-black text-2xl sm:text-3xl md:text-4xl text-prime-red line-through whitespace-nowrap">R$ 45.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA (Pulsing) -->
+      <div class="animate-on-scroll">
+        <a
+          href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20"
+          class="cta-btn cta-pulse text-sm sm:text-base md:text-lg px-8 sm:px-10 py-4 sm:py-5"
+        >
+          <span class="shimmer"></span>
+          DESCOBRIR O PREÇO REAL DO RAIO-X
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================ -->
+  <!-- FOOTER                                        -->
+  <!-- ============================================ -->
+  <footer class="relative py-10 bg-prime-black border-t border-prime-border-olive/40 overflow-hidden">
+    <!-- Subtle green shade -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute bottom-0 left-[50%] translate-x-[-50%] w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.02)_0%,transparent_70%)]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 text-center">
+      <img
+        src="images/Logo_2-removebg-preview.png"
+        alt="A Tríade Prime"
+        class="h-8 sm:h-10 mx-auto mb-4 opacity-70"
+        loading="lazy"
+        decoding="async"
+      >
+      <p class="text-prime-muted text-xs sm:text-sm mb-2">
+        CNPJ: <!-- Insert CNPJ here -->
+      </p>
+      <p class="text-prime-muted/60 text-xs">
+        <a href="#" class="hover:text-prime-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prime-gold focus-visible:ring-offset-2 focus-visible:ring-offset-prime-black rounded">Políticas de Privacidade</a>
+        <span class="mx-2">|</span>
+        <a href="#" class="hover:text-prime-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prime-gold focus-visible:ring-offset-2 focus-visible:ring-offset-prime-black rounded">Termos de Uso</a>
+      </p>
+    </div>
+  </footer>
+
+
+  <!-- ============================================ -->
+  <!-- SCRIPTS                                       -->
+  <!-- ============================================ -->
+  <script>
+    // ---- Carousel ----
+    (function() {
+      const track = document.getElementById('carousel-track');
+      const dotsContainer = document.getElementById('carousel-dots');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const items = track.querySelectorAll('.carousel-item');
+      let currentIndex = 0;
+      let itemsPerView = window.innerWidth >= 640 ? 2 : 1;
+      const totalSlides = Math.ceil(items.length / itemsPerView);
+      let autoplayTimer;
+
+      function buildDots() {
+        dotsContainer.innerHTML = '';
+        const count = Math.ceil(items.length / itemsPerView);
+        for (let i = 0; i < count; i++) {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
+          dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+          dot.addEventListener('click', function() { goTo(i); });
+          dotsContainer.appendChild(dot);
+        }
+      }
+
+      function updateDots() {
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach(function(d, i) {
+          d.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      function goTo(index) {
+        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
+        currentIndex = Math.max(0, Math.min(index, maxIndex));
+        const gap = 24; // 1.5rem
+        const itemWidth = items[0].offsetWidth + gap;
+        track.style.transform = 'translateX(-' + (currentIndex * itemsPerView * itemWidth) + 'px)';
+        updateDots();
+        resetAutoplay();
+      }
+
+      function next() {
+        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
+        goTo(currentIndex >= maxIndex ? 0 : currentIndex + 1);
+      }
+
+      function prev() {
+        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
+        goTo(currentIndex <= 0 ? maxIndex : currentIndex - 1);
+      }
+
+      function resetAutoplay() {
+        clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(next, 5000);
+      }
+
+      prevBtn.addEventListener('click', prev);
+      nextBtn.addEventListener('click', next);
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      track.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+      track.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          diff > 0 ? next() : prev();
+        }
+      }, { passive: true });
+
+      // Responsive
+      window.addEventListener('resize', function() {
+        const newPerView = window.innerWidth >= 640 ? 2 : 1;
+        if (newPerView !== itemsPerView) {
+          itemsPerView = newPerView;
+          currentIndex = 0;
+          buildDots();
+          goTo(0);
+        }
+      });
+
+      buildDots();
+      resetAutoplay();
+    })();
+
+    // ---- Scroll Animations ----
+    (function() {
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>
