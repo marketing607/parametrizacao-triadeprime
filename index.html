@@ -9,10 +9,6 @@
   <meta property="og:description" content="8 em cada 10 empresários pagam 3x mais impostos do que deveriam.">
   <meta property="og:type" content="website">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -22,13 +18,9 @@
             prime: {
               black: '#0a0a0a',
               dark: '#111111',
-              darker: '#0d0d0d',
-              olive: '#0f1a12',
               card: '#141414',
               neon: '#00e676',
-              'neon-bright': '#33ff99',
               gold: '#c9a84c',
-              'gold-light': '#e2c970',
               red: '#ef4444',
               muted: '#9ca3af',
               border: '#1c1c1c',
@@ -36,9 +28,8 @@
             }
           },
           fontFamily: {
-            display: ['"Montserrat"', 'system-ui', 'sans-serif'],
-            serif: ['"Playfair Display"', 'Georgia', 'serif'],
-            body: ['"Inter"', 'system-ui', 'sans-serif'],
+            anton: ['"Anton"', 'Impact', 'sans-serif'],
+            body: ['"CenturyGothic"', '"Century Gothic"', 'Futura', 'sans-serif'],
           }
         }
       }
@@ -46,23 +37,73 @@
   </script>
 
   <style>
+    /* ---- Fonts ---- */
+    @font-face {
+      font-family: 'Anton';
+      src: url('fonts/Anton-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CenturyGothic';
+      src: url('fonts/SansSerifBookFLF.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CenturyGothic';
+      src: url('fonts/SansSerifFLF-Demibold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CenturyGothic';
+      src: url('fonts/SansSerifBldFLF.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
     html { scroll-behavior: smooth; }
 
+    /* ---- Noise grain overlay ---- */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       z-index: 9999;
       pointer-events: none;
-      opacity: 0.025;
+      opacity: 0.02;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-repeat: repeat;
       background-size: 256px 256px;
     }
 
+    /* ---- Tech grid background ---- */
+    .tech-grid {
+      background-image:
+        linear-gradient(rgba(0,230,118,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,230,118,0.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    .tech-grid-fine {
+      background-image:
+        linear-gradient(rgba(0,230,118,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,230,118,0.02) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* ---- Grid dot intersections ---- */
+    .tech-dots {
+      background-image: radial-gradient(circle, rgba(0,230,118,0.08) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
     :root {
       --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *:focus-visible {
@@ -75,13 +116,13 @@
       display: inline-block;
       background-color: #00e676;
       color: #0a0a0a;
-      font-family: 'Montserrat', system-ui, sans-serif;
-      font-weight: 800;
-      font-size: 0.875rem;
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
       padding: 1rem 2rem;
       border-radius: 0.5rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-decoration: none;
       text-align: center;
       position: relative;
@@ -89,79 +130,41 @@
       box-shadow:
         0 4px 24px rgba(0, 230, 118, 0.25),
         0 0 60px rgba(0, 230, 118, 0.08);
-      transition-property: transform, box-shadow, opacity;
+      transition-property: transform, box-shadow;
       transition-duration: 0.3s;
       transition-timing-function: var(--spring);
       cursor: pointer;
     }
-    .cta-btn::after {
-      content: '';
+    .cta-btn .shimmer {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition-property: width, height, opacity;
-      transition-duration: 0.5s;
-      transition-timing-function: ease;
-      opacity: 0;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      animation: shimmer 3s ease-in-out infinite;
+      pointer-events: none;
     }
     .cta-btn:hover {
       transform: translateY(-3px) scale(1.02);
       box-shadow:
-        0 8px 32px rgba(0, 230, 118, 0.4),
-        0 0 80px rgba(0, 230, 118, 0.15);
-    }
-    .cta-btn:hover::after {
-      width: 300px;
-      height: 300px;
-      opacity: 0;
+        0 8px 40px rgba(0, 230, 118, 0.45),
+        0 0 100px rgba(0, 230, 118, 0.15);
     }
     .cta-btn:active {
       transform: translateY(0) scale(0.98);
       box-shadow: 0 2px 12px rgba(0, 230, 118, 0.25);
-    }
-    .cta-btn:focus-visible {
-      outline: 2px solid #c9a84c;
-      outline-offset: 4px;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% {
-        box-shadow:
-          0 4px 24px rgba(0, 230, 118, 0.25),
-          0 0 60px rgba(0, 230, 118, 0.08);
-      }
-      50% {
-        box-shadow:
-          0 4px 32px rgba(0, 230, 118, 0.55),
-          0 0 90px rgba(0, 230, 118, 0.22);
-      }
-    }
-    .cta-pulse {
-      animation: pulse-glow 2.5s ease-in-out infinite;
-    }
-    .cta-pulse:hover {
-      animation: none;
     }
 
     @keyframes shimmer {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
-    .cta-btn .shimmer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-      animation: shimmer 3s ease-in-out infinite;
-      pointer-events: none;
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 24px rgba(0,230,118,0.25), 0 0 60px rgba(0,230,118,0.08); }
+      50% { box-shadow: 0 4px 40px rgba(0,230,118,0.55), 0 0 100px rgba(0,230,118,0.22); }
     }
+    .cta-pulse { animation: pulse-glow 2.5s ease-in-out infinite; }
+    .cta-pulse:hover { animation: none; }
 
     /* ---- Pillar Cards ---- */
     .pillar-card {
@@ -175,80 +178,36 @@
       transform: translateY(-4px);
     }
 
-    /* ---- Image Overlay ---- */
-    .img-overlay {
-      position: relative;
-      overflow: hidden;
-    }
-    .img-overlay::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(10, 10, 10, 0) 30%, rgba(10, 10, 10, 0.85) 100%);
-      mix-blend-mode: multiply;
-      pointer-events: none;
-    }
-
-    /* ---- Price Lines ---- */
+    /* ---- Price lines ---- */
     .price-line {
       transition-property: background-color;
       transition-duration: 0.2s;
       transition-timing-function: ease;
     }
-    .price-line:hover {
-      background-color: rgba(255, 255, 255, 0.02);
-    }
+    .price-line:hover { background-color: rgba(255,255,255,0.02); }
 
-    /* ---- Carousel ---- */
-    .carousel-track {
-      display: flex;
-      gap: 1.5rem;
-      transition-property: transform;
-      transition-duration: 0.6s;
-      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .carousel-item {
-      flex: 0 0 100%;
-      min-width: 0;
-    }
-    @media (min-width: 640px) {
-      .carousel-item { flex: 0 0 calc(50% - 0.75rem); }
-    }
-    .carousel-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: none;
-      background: #1c1c1c;
-      cursor: pointer;
-      padding: 0;
-      transition-property: background-color, transform;
-      transition-duration: 0.25s;
-      transition-timing-function: ease;
-    }
-    .carousel-dot:hover {
-      background: #333;
-    }
-    .carousel-dot.active {
-      background: #00e676;
-      transform: scale(1.3);
-    }
-    .carousel-dot:focus-visible {
-      outline: 2px solid #c9a84c;
-      outline-offset: 2px;
-    }
-
-    /* ---- Fade-in animations ---- */
+    /* ---- Fade-in on scroll ---- */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(30px);
+    .anim { opacity: 0; transform: translateY(30px); }
+    .anim.visible { animation: fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+    /* ---- Subtle scan line ---- */
+    @keyframes scanline {
+      0% { transform: translateY(-100vh); }
+      100% { transform: translateY(100vh); }
     }
-    .animate-on-scroll.visible {
-      animation: fadeInUp 0.7s var(--ease-out-expo) forwards;
+    .scanline::after {
+      content: '';
+      position: fixed;
+      left: 0; width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(0,230,118,0.06), transparent);
+      animation: scanline 8s linear infinite;
+      pointer-events: none;
+      z-index: 9998;
     }
 
     /* ---- Scrollbar ---- */
@@ -256,24 +215,33 @@
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #1c1c1c; border-radius: 3px; }
   </style>
-
-  <!-- Meta Pixel / GTM placeholder -->
-  <!-- <script>...</script> -->
 </head>
 
-<body class="bg-prime-black text-white font-body antialiased">
+<body class="bg-prime-black text-white font-body antialiased scanline">
 
   <!-- ============================================ -->
   <!-- SECTION 1: HERO                              -->
   <!-- ============================================ -->
-  <section class="relative min-h-screen flex items-center overflow-hidden">
-    <!-- Background green shades -->
+  <section class="relative min-h-screen flex items-center overflow-hidden tech-grid">
+    <!-- Background: green glows -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-[-10%] left-[-5%] w-[700px] h-[700px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_60%)]"></div>
-      <div class="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(15,26,18,0.6)_0%,transparent_70%)]"></div>
-      <div class="absolute bottom-0 left-[30%] w-[600px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
-      <div class="absolute bottom-[-10%] right-[10%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(201,168,76,0.03)_0%,transparent_70%)]"></div>
+      <div class="absolute top-[-15%] left-[-10%] w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(0,230,118,0.06)_0%,transparent_55%)]"></div>
+      <div class="absolute top-[30%] right-[-5%] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_60%)]"></div>
+      <div class="absolute bottom-[-10%] left-[20%] w-[700px] h-[500px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.035)_0%,transparent_65%)]"></div>
     </div>
+
+    <!-- Trident watermark behind title -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+      <img
+        src="images/trident-upright.png"
+        alt=""
+        class="w-[500px] sm:w-[600px] lg:w-[750px] opacity-[0.04] select-none"
+        loading="eager"
+      >
+    </div>
+
+    <!-- Tech dots overlay -->
+    <div class="absolute inset-0 tech-dots pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 lg:py-0">
       <!-- Logo -->
@@ -282,18 +250,17 @@
         alt="A Tríade Prime"
         class="h-10 md:h-14 mb-10 lg:mb-16"
         loading="eager"
-        decoding="async"
       >
 
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         <!-- Left: Copy -->
         <div class="order-2 lg:order-1">
-          <h1 class="font-serif font-black text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-[-0.02em] mb-6">
-            <span class="text-prime-gold">CONHEÇA O</span><br>
-            <span class="text-prime-neon">RAIO-X TRIBUTÁRIO</span>
+          <h1 class="font-anton uppercase text-5xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-[0.02em] mb-6">
+            <span class="text-white">CONHEÇA O</span><br>
+            <span class="text-prime-gold">RAIO-X TRIBUTÁRIO</span>
           </h1>
 
-          <h2 class="font-display font-bold text-lg sm:text-xl lg:text-2xl leading-snug text-white/90 mb-6 max-w-xl">
+          <h2 class="font-body font-bold text-lg sm:text-xl lg:text-2xl leading-snug text-white mb-6 max-w-xl">
             A maioria das empresas não quebram por falta de faturamento, mas por <span class="text-prime-red">falta de visão tributária.</span>
           </h2>
 
@@ -302,8 +269,8 @@
           </p>
 
           <p class="text-base sm:text-lg leading-[1.7] mb-8 max-w-xl">
-            <strong class="text-white">8 EM CADA 10 EMPRESÁRIOS PAGAM 3x MAIS <span class="text-prime-red">IMPOSTOS</span> DO QUE DEVERIAM.</strong>
-            <span class="text-prime-muted"> Pare de sustentar o <span class="text-prime-red font-bold">GOVERNO</span> sem necessidade e tenha visão absoluta do seu caixa.</span>
+            <strong class="font-anton uppercase text-white text-xl sm:text-2xl">8 EM CADA 10 EMPRESÁRIOS PAGAM 3x MAIS <span class="text-prime-red">IMPOSTOS</span> DO QUE DEVERIAM.</strong>
+            <span class="text-prime-muted block mt-2">Pare de sustentar o <span class="text-prime-red font-bold">GOVERNO</span> sem necessidade e tenha visão absoluta do seu caixa.</span>
           </p>
 
           <a href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20" class="cta-btn text-sm sm:text-base px-6 sm:px-8 py-4">
@@ -312,42 +279,45 @@
           </a>
         </div>
 
-        <!-- Right: Consultant Photo -->
-        <div class="order-1 lg:order-2 img-overlay rounded-xl">
-          <img
-            src="images/hero-consultant.jpg"
-            alt="Especialista tributário da Tríade Prime"
-            class="w-full max-w-md lg:max-w-none mx-auto rounded-xl object-cover"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-          >
+        <!-- Right: Team Photo (bg removed via blend) -->
+        <div class="order-1 lg:order-2 flex justify-center">
+          <div class="relative max-w-md lg:max-w-lg w-full">
+            <img
+              src="images/team-photo.jpg"
+              alt="Equipe Tríade Prime"
+              class="w-full rounded-xl object-cover"
+              style="mix-blend-mode: luminosity; filter: contrast(1.1) brightness(0.95);"
+              loading="eager"
+              fetchpriority="high"
+            >
+            <!-- Gradient fade edges -->
+            <div class="absolute inset-0 rounded-xl pointer-events-none"
+                 style="background: radial-gradient(ellipse at center, transparent 40%, #0a0a0a 85%);"></div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Bottom fade -->
-    <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-prime-black to-transparent pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-prime-black to-transparent pointer-events-none" aria-hidden="true"></div>
   </section>
 
 
   <!-- ============================================ -->
   <!-- SECTION 2: THE PAIN AND TRANSITION           -->
   <!-- ============================================ -->
-  <section class="relative py-20 lg:py-28 bg-prime-dark overflow-hidden">
-    <!-- Green shade background -->
+  <section class="relative py-20 lg:py-28 bg-prime-dark overflow-hidden tech-grid-fine">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
+      <div class="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_70%)]"></div>
     </div>
-
-    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-neon/10 to-transparent" aria-hidden="true"></div>
 
     <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 text-center">
-      <p class="font-serif font-bold text-xl sm:text-2xl md:text-3xl text-white leading-snug mb-8 italic animate-on-scroll">
-        À primeira vista, tudo parece sob controle...
+      <p class="font-anton uppercase text-2xl sm:text-3xl md:text-4xl text-white leading-snug mb-8 anim">
+        À PRIMEIRA VISTA, TUDO PARECE SOB CONTROLE...
       </p>
 
-      <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mb-10 animate-on-scroll">
+      <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8 mb-10 anim">
         <span class="inline-flex items-center gap-2 text-prime-neon font-body font-semibold text-lg">
           <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
           Planilha OK.
@@ -362,66 +332,64 @@
         </span>
       </div>
 
-      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-6 animate-on-scroll">
+      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-6 anim">
         Mas a verdade é que a maioria das contabilidades te mantém apenas regular <em>(sendo otimista)</em>. Elas não apontam o caminho para pagar menos. Elas não revisam o passado.
       </p>
 
-      <p class="text-base sm:text-lg leading-[1.7] mb-6 animate-on-scroll">
+      <p class="text-base sm:text-lg leading-[1.7] mb-6 anim">
         <strong class="text-prime-red">O resultado?</strong>
         <span class="text-prime-muted">Você opera no escuro. Paga <span class="text-prime-red font-semibold">IMPOSTOS</span> em duplicidade, está no regime tributário errado e desconhece benefícios fiscais que seus concorrentes já usam.</span>
       </p>
 
-      <p class="text-base sm:text-lg leading-[1.7] text-white animate-on-scroll">
-        <strong>O Raio-X Tributário não é contabilidade.</strong>
-        <span class="font-serif text-xl sm:text-2xl text-prime-gold italic block mt-2">É visão. Previsibilidade. Controle.</span>
-        <span class="text-prime-muted mt-2 block">É transformar o imposto em uma decisão estratégica, 100% dentro da legalidade.</span>
+      <p class="text-base sm:text-lg leading-[1.7] anim">
+        <strong class="font-anton uppercase text-white text-xl sm:text-2xl block mb-2">O RAIO-X TRIBUTÁRIO NÃO É CONTABILIDADE.</strong>
+        <span class="text-white text-lg sm:text-xl">É visão. Previsibilidade. Controle.</span>
+        <span class="text-prime-muted block mt-2">É transformar o imposto em uma decisão estratégica, 100% dentro da legalidade.</span>
       </p>
     </div>
 
-    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-neon/10 to-transparent" aria-hidden="true"></div>
   </section>
 
 
   <!-- ============================================ -->
   <!-- SECTION 3: WHAT WE DELIVER (4 PILLARS)       -->
   <!-- ============================================ -->
-  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden">
-    <!-- Green shades -->
+  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden tech-grid">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-[10%] left-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
-      <div class="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(15,26,18,0.5)_0%,transparent_65%)]"></div>
+      <div class="absolute top-[10%] left-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_65%)]"></div>
+      <div class="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
     </div>
+    <div class="absolute inset-0 tech-dots pointer-events-none" aria-hidden="true"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
-      <!-- Section Header -->
-      <div class="text-center mb-14 lg:mb-20 animate-on-scroll">
-        <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] tracking-[-0.02em] text-white mb-3">
+      <div class="text-center mb-14 lg:mb-20 anim">
+        <h2 class="font-anton uppercase text-3xl sm:text-4xl md:text-5xl tracking-[0.02em] text-white mb-3">
           O QUE VAMOS ENTREGAR PARA VOCÊ?
         </h2>
-        <p class="font-display font-bold text-base sm:text-lg text-prime-gold uppercase tracking-[0.08em]">
+        <p class="font-body font-bold text-base sm:text-lg text-white uppercase tracking-[0.08em]">
           4 SERVIÇOS COMBINADOS EM UM ÚNICO PRODUTO:
         </p>
       </div>
 
       <!-- Security Badge -->
-      <div class="flex justify-center mb-10 animate-on-scroll">
-        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-gold/30 rounded-full px-6 py-3 shadow-[0_0_30px_rgba(201,168,76,0.1)]">
-          <svg class="w-7 h-7 text-prime-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-          <span class="font-display font-bold text-sm sm:text-base text-prime-gold uppercase tracking-wider">100% de Segurança Jurídica</span>
+      <div class="flex justify-center mb-10 anim">
+        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-neon/20 rounded-full px-6 py-3 shadow-[0_0_30px_rgba(0,230,118,0.08)]">
+          <svg class="w-7 h-7 text-prime-neon flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span class="font-anton uppercase text-sm sm:text-base text-prime-neon tracking-wider">100% DE SEGURANÇA JURÍDICA</span>
         </div>
       </div>
 
       <!-- 4 Pillar Cards -->
       <div class="grid md:grid-cols-2 gap-6 lg:gap-8 mb-14">
-        <!-- Card 1 -->
-        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 anim">
           <div class="flex items-center gap-3 mb-4">
             <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
             </span>
             <div>
-              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 01: Estudo Comparativo</p>
-              <p class="font-serif font-bold text-lg text-white">Regimes Tributários</p>
+              <p class="font-anton uppercase text-sm text-prime-neon tracking-wider">PILAR 01: ESTUDO COMPARATIVO</p>
+              <p class="font-body font-bold text-lg text-white">Regimes Tributários</p>
             </div>
           </div>
           <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
@@ -429,15 +397,14 @@
           </p>
         </div>
 
-        <!-- Card 2 -->
-        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 anim">
           <div class="flex items-center gap-3 mb-4">
             <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </span>
             <div>
-              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 02: Máquina do Tempo</p>
-              <p class="font-serif font-bold text-lg text-white">Análise de Créditos (5 anos)</p>
+              <p class="font-anton uppercase text-sm text-prime-neon tracking-wider">PILAR 02: MÁQUINA DO TEMPO</p>
+              <p class="font-body font-bold text-lg text-white">Análise de Créditos (5 anos)</p>
             </div>
           </div>
           <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
@@ -445,15 +412,14 @@
           </p>
         </div>
 
-        <!-- Card 3 -->
-        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 anim">
           <div class="flex items-center gap-3 mb-4">
             <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
             </span>
             <div>
-              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 03: Pente-Fino</p>
-              <p class="font-serif font-bold text-lg text-white">Auditoria Completa</p>
+              <p class="font-anton uppercase text-sm text-prime-neon tracking-wider">PILAR 03: PENTE-FINO</p>
+              <p class="font-body font-bold text-lg text-white">Auditoria Completa</p>
             </div>
           </div>
           <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
@@ -461,15 +427,14 @@
           </p>
         </div>
 
-        <!-- Card 4 -->
-        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 animate-on-scroll">
+        <div class="pillar-card bg-prime-card rounded-xl border border-prime-border p-6 sm:p-8 anim">
           <div class="flex items-center gap-3 mb-4">
             <span class="flex-shrink-0 w-10 h-10 rounded-lg bg-prime-neon/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-prime-neon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             </span>
             <div>
-              <p class="font-display font-bold text-sm text-prime-neon uppercase tracking-wider">Pilar 04: Acelerador de Lucro</p>
-              <p class="font-serif font-bold text-lg text-white">Regimes Especiais (TTD)</p>
+              <p class="font-anton uppercase text-sm text-prime-neon tracking-wider">PILAR 04: ACELERADOR DE LUCRO</p>
+              <p class="font-body font-bold text-lg text-white">Regimes Especiais (TTD)</p>
             </div>
           </div>
           <p class="text-prime-muted leading-[1.7] text-[0.95rem]">
@@ -478,8 +443,7 @@
         </div>
       </div>
 
-      <!-- CTA -->
-      <div class="text-center animate-on-scroll">
+      <div class="text-center anim">
         <a href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20" class="cta-btn text-sm sm:text-base px-6 sm:px-8 py-4">
           <span class="shimmer"></span>
           QUERO TER VISÃO COMPLETA DA MINHA OPERAÇÃO
@@ -490,152 +454,102 @@
 
 
   <!-- ============================================ -->
-  <!-- SECTION 4: DEPOIMENTOS (Carousel)            -->
+  <!-- SECTION 4: DEPOIMENTOS                       -->
   <!-- ============================================ -->
   <section class="relative py-20 lg:py-28 bg-prime-dark overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
-
-    <!-- Green shades -->
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-neon/10 to-transparent" aria-hidden="true"></div>
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-[30%] left-[50%] translate-x-[-50%] w-[800px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
+      <div class="absolute top-[30%] left-[50%] -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_70%)]"></div>
     </div>
 
-    <div class="relative z-10 max-w-5xl mx-auto px-5 sm:px-8 lg:px-12">
-      <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl tracking-[-0.02em] text-center mb-4 animate-on-scroll">
-        DEPOIMENTOS REAIS DE QUEM CONTRATOU<br>
-        <span class="text-prime-gold font-serif italic">A Tríade Prime.</span>
+    <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 lg:px-12">
+      <h2 class="font-anton uppercase text-2xl sm:text-3xl md:text-4xl tracking-[0.02em] text-center mb-4 anim">
+        DEPOIMENTOS REAIS DE QUEM CONTRATOU
       </h2>
+      <div class="flex justify-center mb-12 anim">
+        <img src="images/Logo_2-removebg-preview.png" alt="A Tríade Prime" class="h-8 sm:h-10">
+      </div>
 
-      <p class="text-prime-muted text-center text-base sm:text-lg mb-12 animate-on-scroll">Resultados comprovados por quem confiou no nosso trabalho.</p>
+      <!-- Review Screenshots -->
+      <div class="grid sm:grid-cols-2 gap-6 mb-10 anim">
+        <img
+          src="depo/depoimento-1.png"
+          alt="Avaliação de Paula Del Ben — 5 estrelas"
+          class="w-full rounded-lg border border-prime-border shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+          loading="lazy"
+        >
+        <img
+          src="depo/depoimento-2.png"
+          alt="Avaliação de Thomaz Caetano — 5 estrelas"
+          class="w-full rounded-lg border border-prime-border shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+          loading="lazy"
+        >
+      </div>
 
-      <!-- Carousel Container -->
-      <div class="relative animate-on-scroll" id="testimonial-carousel">
-        <div class="overflow-hidden rounded-xl">
-          <div class="carousel-track" id="carousel-track">
-            <!-- Item 1: Screenshot Paula -->
-            <div class="carousel-item">
-              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
-                <img
-                  src="depo/depoimento-1.png"
-                  alt="Avaliação de Paula Del Ben — 5 estrelas"
-                  class="w-full rounded-lg"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </div>
-            </div>
-            <!-- Item 2: Screenshot Thomaz -->
-            <div class="carousel-item">
-              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
-                <img
-                  src="depo/depoimento-2.png"
-                  alt="Avaliação de Thomaz Caetano — 5 estrelas"
-                  class="w-full rounded-lg"
-                  loading="lazy"
-                  decoding="async"
-                >
-              </div>
-            </div>
-            <!-- Item 3: Video 1 -->
-            <div class="carousel-item">
-              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
-                <video
-                  controls
-                  preload="metadata"
-                  class="w-full rounded-lg aspect-video object-cover"
-                >
-                  <source src="depo/depoimento-video-1.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-            <!-- Item 4: Video 2 -->
-            <div class="carousel-item">
-              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
-                <video
-                  controls
-                  preload="metadata"
-                  class="w-full rounded-lg aspect-video object-cover"
-                >
-                  <source src="depo/depoimento-video-2.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-            <!-- Item 5: Video 3 -->
-            <div class="carousel-item">
-              <div class="bg-prime-card rounded-xl border border-prime-border p-4 h-full">
-                <video
-                  controls
-                  preload="metadata"
-                  class="w-full rounded-lg aspect-video object-cover"
-                >
-                  <source src="depo/depoimento-video-3.mp4" type="video/mp4">
-                </video>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Video Testimonials -->
+      <div class="grid sm:grid-cols-2 gap-6 anim">
+        <video controls preload="metadata" class="w-full rounded-lg border border-prime-border shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+          <source src="depo/depoimento-video-1.mp4" type="video/mp4">
+        </video>
+        <video controls preload="metadata" class="w-full rounded-lg border border-prime-border shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+          <source src="depo/depoimento-video-2.mp4" type="video/mp4">
+        </video>
+      </div>
 
-        <!-- Navigation Arrows -->
-        <button id="carousel-prev" class="absolute top-1/2 -translate-y-1/2 -left-4 sm:-left-6 w-10 h-10 rounded-full bg-prime-card border border-prime-border flex items-center justify-center hover:border-prime-neon/40 hover:bg-prime-neon/10 transition-colors duration-200 z-10" aria-label="Anterior">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        </button>
-        <button id="carousel-next" class="absolute top-1/2 -translate-y-1/2 -right-4 sm:-right-6 w-10 h-10 rounded-full bg-prime-card border border-prime-border flex items-center justify-center hover:border-prime-neon/40 hover:bg-prime-neon/10 transition-colors duration-200 z-10" aria-label="Próximo">
-          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-        </button>
-
-        <!-- Dots -->
-        <div class="flex justify-center gap-3 mt-8" id="carousel-dots"></div>
+      <!-- Video 3 full width -->
+      <div class="mt-6 anim">
+        <video controls preload="metadata" class="w-full max-w-xl mx-auto rounded-lg border border-prime-border shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+          <source src="depo/depoimento-video-3.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
 
-    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-border-olive to-transparent" aria-hidden="true"></div>
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-prime-neon/10 to-transparent" aria-hidden="true"></div>
   </section>
 
 
   <!-- ============================================ -->
   <!-- SECTION 5: PRICE ANCHORING & OFFER           -->
   <!-- ============================================ -->
-  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden">
-    <!-- Green shades -->
+  <section class="relative py-20 lg:py-28 bg-prime-black overflow-hidden tech-grid">
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-[5%] left-[10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
-      <div class="absolute bottom-[5%] right-[5%] w-[600px] h-[400px] bg-[radial-gradient(ellipse,rgba(15,26,18,0.5)_0%,transparent_65%)]"></div>
+      <div class="absolute top-[5%] left-[10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(0,230,118,0.04)_0%,transparent_65%)]"></div>
+      <div class="absolute bottom-[5%] right-[5%] w-[600px] h-[400px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.03)_0%,transparent_65%)]"></div>
     </div>
+    <!-- Trident watermark -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
+      <img src="images/trident-upright.png" alt="" class="w-[400px] lg:w-[550px] opacity-[0.03] select-none" loading="lazy">
+    </div>
+    <div class="absolute inset-0 tech-dots pointer-events-none" aria-hidden="true"></div>
 
     <!-- Decorative trident -->
-    <div class="relative z-10 flex justify-center mb-10 animate-on-scroll" aria-hidden="true">
-      <img
-        src="images/trident-horizontal.png"
-        alt=""
-        class="w-40 sm:w-52 opacity-50"
-        loading="lazy"
-        decoding="async"
-      >
+    <div class="relative z-10 flex justify-center mb-10 anim" aria-hidden="true">
+      <img src="images/trident-horizontal.png" alt="" class="w-40 sm:w-52 opacity-50" loading="lazy">
     </div>
 
     <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-8 text-center">
-      <h2 class="font-display font-black text-2xl sm:text-3xl md:text-4xl tracking-[-0.02em] text-white mb-4 leading-tight animate-on-scroll">
-        APLIQUE O <span class="text-prime-neon">RAIO-X TRIBUTÁRIO</span> E OPERE COM <span class="font-serif italic text-prime-gold">VANTAGEM</span> SOBRE A CONCORRÊNCIA.
+      <h2 class="font-anton uppercase text-2xl sm:text-3xl md:text-4xl tracking-[0.02em] text-white mb-4 leading-tight anim">
+        APLIQUE O RAIO-X TRIBUTÁRIO E OPERE COM <span class="text-prime-gold">VANTAGEM</span> SOBRE A CONCORRÊNCIA.
       </h2>
 
-      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-4 animate-on-scroll">
+      <p class="text-prime-muted text-base sm:text-lg leading-[1.7] mb-4 anim">
         Preencha o formulário e nossa equipe estratégica entrará em contato com você.
       </p>
 
-      <p class="text-prime-muted text-sm sm:text-base italic mb-10 animate-on-scroll">
+      <p class="text-prime-muted text-sm sm:text-base italic mb-10 anim">
         Se fôssemos cobrar por cada serviço do Raio-X de forma isolada em uma consultoria premium, este seria o valor:
       </p>
 
       <!-- Security Badge -->
-      <div class="flex justify-center mb-8 animate-on-scroll">
-        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-gold/30 rounded-full px-5 py-2.5 shadow-[0_0_25px_rgba(201,168,76,0.08)]">
-          <svg class="w-6 h-6 text-prime-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
-          <span class="font-display font-bold text-xs sm:text-sm text-prime-gold uppercase tracking-wider">100% de Segurança Jurídica</span>
+      <div class="flex justify-center mb-8 anim">
+        <div class="inline-flex items-center gap-3 bg-prime-card border border-prime-neon/20 rounded-full px-5 py-2.5 shadow-[0_0_25px_rgba(0,230,118,0.06)]">
+          <svg class="w-6 h-6 text-prime-neon flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span class="font-anton uppercase text-xs sm:text-sm text-prime-neon tracking-wider">100% DE SEGURANÇA JURÍDICA</span>
         </div>
       </div>
 
       <!-- Pricing Card -->
-      <div class="bg-prime-card rounded-xl border border-prime-border p-5 sm:p-8 text-left shadow-[0_8px_60px_rgba(0,0,0,0.5),0_0_40px_rgba(0,230,118,0.03)] mb-10 animate-on-scroll">
+      <div class="bg-prime-card rounded-xl border border-prime-border p-5 sm:p-8 text-left shadow-[0_8px_60px_rgba(0,0,0,0.5),0_0_40px_rgba(0,230,118,0.03)] mb-10 anim">
         <div class="space-y-0">
           <div class="price-line flex justify-between items-center py-4 border-b border-prime-border/60 gap-4">
             <span class="text-white text-sm sm:text-base">Auditoria Fiscal</span>
@@ -653,21 +567,16 @@
             <span class="text-white text-sm sm:text-base">Análise de Regimes Especiais de Tributação</span>
             <span class="text-prime-muted line-through text-sm sm:text-base whitespace-nowrap">R$ 10.000</span>
           </div>
-
-          <!-- Total -->
           <div class="flex justify-between items-center pt-6 mt-2 gap-4">
-            <span class="font-display font-bold text-lg sm:text-xl text-white">Soma Total do Valor Entregue</span>
-            <span class="font-serif font-black text-2xl sm:text-3xl md:text-4xl text-prime-red line-through whitespace-nowrap">R$ 45.000</span>
+            <span class="font-anton uppercase text-lg sm:text-xl text-white">SOMA TOTAL DO VALOR ENTREGUE</span>
+            <span class="font-anton text-2xl sm:text-3xl md:text-4xl text-prime-red line-through whitespace-nowrap">R$ 45.000</span>
           </div>
         </div>
       </div>
 
       <!-- CTA (Pulsing) -->
-      <div class="animate-on-scroll">
-        <a
-          href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20"
-          class="cta-btn cta-pulse text-sm sm:text-base md:text-lg px-8 sm:px-10 py-4 sm:py-5"
-        >
+      <div class="anim">
+        <a href="https://wa.me/5511974432211?text=Preciso%20de%20um%20RAIO-X%20Tribut%C3%A1rio%20da%20minha%20empresa!%20" class="cta-btn cta-pulse text-sm sm:text-base md:text-lg px-8 sm:px-10 py-4 sm:py-5">
           <span class="shimmer"></span>
           DESCOBRIR O PREÇO REAL DO RAIO-X
         </a>
@@ -680,124 +589,28 @@
   <!-- FOOTER                                        -->
   <!-- ============================================ -->
   <footer class="relative py-10 bg-prime-black border-t border-prime-border-olive/40 overflow-hidden">
-    <!-- Subtle green shade -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute bottom-0 left-[50%] translate-x-[-50%] w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.02)_0%,transparent_70%)]"></div>
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[radial-gradient(ellipse,rgba(0,230,118,0.02)_0%,transparent_70%)]"></div>
     </div>
-
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 text-center">
-      <img
-        src="images/Logo_2-removebg-preview.png"
-        alt="A Tríade Prime"
-        class="h-8 sm:h-10 mx-auto mb-4 opacity-70"
-        loading="lazy"
-        decoding="async"
-      >
+      <img src="images/Logo_2-removebg-preview.png" alt="A Tríade Prime" class="h-8 sm:h-10 mx-auto mb-4 opacity-70" loading="lazy">
       <p class="text-prime-muted text-xs sm:text-sm mb-2">
         CNPJ: <!-- Insert CNPJ here -->
       </p>
       <p class="text-prime-muted/60 text-xs">
-        <a href="#" class="hover:text-prime-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prime-gold focus-visible:ring-offset-2 focus-visible:ring-offset-prime-black rounded">Políticas de Privacidade</a>
+        <a href="#" class="hover:text-white transition-colors duration-200">Políticas de Privacidade</a>
         <span class="mx-2">|</span>
-        <a href="#" class="hover:text-prime-gold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prime-gold focus-visible:ring-offset-2 focus-visible:ring-offset-prime-black rounded">Termos de Uso</a>
+        <a href="#" class="hover:text-white transition-colors duration-200">Termos de Uso</a>
       </p>
     </div>
   </footer>
-
 
   <!-- ============================================ -->
   <!-- SCRIPTS                                       -->
   <!-- ============================================ -->
   <script>
-    // ---- Carousel ----
     (function() {
-      const track = document.getElementById('carousel-track');
-      const dotsContainer = document.getElementById('carousel-dots');
-      const prevBtn = document.getElementById('carousel-prev');
-      const nextBtn = document.getElementById('carousel-next');
-      const items = track.querySelectorAll('.carousel-item');
-      let currentIndex = 0;
-      let itemsPerView = window.innerWidth >= 640 ? 2 : 1;
-      const totalSlides = Math.ceil(items.length / itemsPerView);
-      let autoplayTimer;
-
-      function buildDots() {
-        dotsContainer.innerHTML = '';
-        const count = Math.ceil(items.length / itemsPerView);
-        for (let i = 0; i < count; i++) {
-          const dot = document.createElement('button');
-          dot.className = 'carousel-dot' + (i === currentIndex ? ' active' : '');
-          dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-          dot.addEventListener('click', function() { goTo(i); });
-          dotsContainer.appendChild(dot);
-        }
-      }
-
-      function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach(function(d, i) {
-          d.classList.toggle('active', i === currentIndex);
-        });
-      }
-
-      function goTo(index) {
-        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
-        currentIndex = Math.max(0, Math.min(index, maxIndex));
-        const gap = 24; // 1.5rem
-        const itemWidth = items[0].offsetWidth + gap;
-        track.style.transform = 'translateX(-' + (currentIndex * itemsPerView * itemWidth) + 'px)';
-        updateDots();
-        resetAutoplay();
-      }
-
-      function next() {
-        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
-        goTo(currentIndex >= maxIndex ? 0 : currentIndex + 1);
-      }
-
-      function prev() {
-        const maxIndex = Math.ceil(items.length / itemsPerView) - 1;
-        goTo(currentIndex <= 0 ? maxIndex : currentIndex - 1);
-      }
-
-      function resetAutoplay() {
-        clearInterval(autoplayTimer);
-        autoplayTimer = setInterval(next, 5000);
-      }
-
-      prevBtn.addEventListener('click', prev);
-      nextBtn.addEventListener('click', next);
-
-      // Touch/swipe support
-      let touchStartX = 0;
-      let touchEndX = 0;
-      track.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-      track.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-          diff > 0 ? next() : prev();
-        }
-      }, { passive: true });
-
-      // Responsive
-      window.addEventListener('resize', function() {
-        const newPerView = window.innerWidth >= 640 ? 2 : 1;
-        if (newPerView !== itemsPerView) {
-          itemsPerView = newPerView;
-          currentIndex = 0;
-          buildDots();
-          goTo(0);
-        }
-      });
-
-      buildDots();
-      resetAutoplay();
-    })();
-
-    // ---- Scroll Animations ----
-    (function() {
-      const observer = new IntersectionObserver(function(entries) {
+      var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
@@ -805,10 +618,7 @@
           }
         });
       }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-      document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
-        observer.observe(el);
-      });
+      document.querySelectorAll('.anim').forEach(function(el) { observer.observe(el); });
     })();
   </script>
 
