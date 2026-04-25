@@ -1,44 +1,41 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { join, extname } from 'node:path';
+import { extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-const PORT = 3000;
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
+  '.js':   'application/javascript',
+  '.css':  'text/css',
+  '.png':  'image/png',
+  '.jpg':  'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
-  '.svg': 'image/svg+xml',
-  '.mp4': 'video/mp4',
-  '.mov': 'video/quicktime',
-  '.ico': 'image/x-icon',
+  '.svg':  'image/svg+xml',
+  '.mp4':  'video/mp4',
+  '.ttf':  'font/ttf',
+  '.otf':  'font/otf',
+  '.woff': 'font/woff',
+  '.woff2':'font/woff2',
+  '.ico':  'image/x-icon',
+  '.json': 'application/json',
 };
 
-const server = createServer(async (req, res) => {
-  let url = decodeURIComponent(req.url.split('?')[0]);
-  if (url === '/') url = '/index.html';
-
+createServer(async (req, res) => {
+  const url  = decodeURIComponent(req.url.split('?')[0]);
+  const file = join(__dirname, url === '/' ? 'index.html' : url);
   try {
-    const data = await readFile(join(__dirname, url));
-    const ext = extname(url).toLowerCase();
-    res.writeHead(200, {
-      'Content-Type': MIME[ext] || 'application/octet-stream',
-      'Cache-Control': 'no-cache',
-    });
-    res.end(data);
+    const body = await readFile(file);
+    const ext  = extname(file).toLowerCase();
+    res.writeHead(200, { 'Content-Type': MIME[ext] ?? 'application/octet-stream' });
+    res.end(body);
   } catch {
-    res.writeHead(404);
-    res.end('Not Found');
+    res.writeHead(404); res.end('Not found');
   }
-});
-
-server.listen(PORT, () => {
-  console.log(`\n  Tríade Prime LP → http://localhost:${PORT}\n`);
+}).listen(3000, '0.0.0.0', () => {
+  console.log('http://localhost:3000');
+  console.log('http://192.168.1.8:3000  (celular na mesma rede)');
 });
