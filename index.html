@@ -807,6 +807,73 @@
   </footer>
 
   <script>
+    /* ── FLOATING FISCAL NUMBERS BACKGROUND ── */
+    (function () {
+      const cvs = document.createElement('canvas');
+      Object.assign(cvs.style, {
+        position: 'fixed', top: '0', left: '0',
+        width: '100%', height: '100%',
+        zIndex: '-1', pointerEvents: 'none'
+      });
+      document.body.prepend(cvs);
+
+      const ctx = cvs.getContext('2d');
+      let W, H, items;
+
+      const CODES = [
+        '2008.11.00', '17.001.00', '8471.30.19', '6305.33.00',
+        '7609.00.00', '4821.10.00', '9403.20.00', '3926.90.90',
+        'NCM', 'CEST', 'CST', 'ICMS-ST',
+        '9,25%', '0%', '12%', '7,5%',
+        '3,65%', '6,80%', '101', '500',
+        'PIS', 'COFINS', 'NF-e', 'FULL',
+        '0101', '5405', '1234.56', '00.00.00'
+      ];
+
+      function rnd(a, b) { return Math.random() * (b - a) + a; }
+
+      function init() {
+        W = cvs.width = window.innerWidth;
+        H = cvs.height = window.innerHeight;
+        const count = W < 768 ? 14 : 24;
+        items = Array.from({ length: count }, (_, i) => ({
+          text:  CODES[i % CODES.length],
+          x:     rnd(-100, W + 100),
+          y:     rnd(0, H),
+          vx:    rnd(0.08, 0.22) * (Math.random() > 0.5 ? 1 : -1),
+          vy:    rnd(0.06, 0.18) * (Math.random() > 0.5 ? 1 : -1),
+          size:  rnd(40, 110),
+          alpha: rnd(0.025, 0.07),
+          rot:   rnd(-0.25, 0.25)
+        }));
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.textBaseline = 'middle';
+        for (const p of items) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < -250) p.x = W + 120;
+          if (p.x > W + 250) p.x = -120;
+          if (p.y < -120) p.y = H + 60;
+          if (p.y > H + 120) p.y = -60;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.font = `bold ${p.size}px Anton, Impact, sans-serif`;
+          ctx.fillStyle = `rgba(196,150,58,${p.alpha})`;
+          ctx.fillText(p.text, 0, 0);
+          ctx.restore();
+        }
+        requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', init);
+      document.fonts.ready.then(() => { init(); frame(); });
+    })();
+  </script>
+
+  <script>
     const vsl = document.getElementById('vsl-hero');
     if (vsl) {
       // Tenta iniciar com som; se o browser bloquear, tenta mudo
