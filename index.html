@@ -33,6 +33,8 @@
       line-height: 1.75;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      background-image: radial-gradient(circle, rgba(196,150,58,0.035) 1px, transparent 1px);
+      background-size: 36px 36px;
     }
 
     .fd { font-family: 'Anton', Impact, sans-serif; }
@@ -48,7 +50,7 @@
       cursor: pointer;
       border: none;
       border-radius: 5px;
-      transition: background 0.2s ease, transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
     }
     .btn-gold {
       background: var(--gold);
@@ -57,10 +59,9 @@
     }
     .btn-gold:hover {
       background: var(--gold-h);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 36px rgba(196,150,58,0.52), 0 4px 16px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 32px rgba(196,150,58,0.55), 0 2px 12px rgba(0,0,0,0.5);
     }
-    .btn-gold:active  { transform: translateY(0); box-shadow: 0 2px 12px rgba(196,150,58,0.3); }
+    .btn-gold:active  { background: var(--gold-d); box-shadow: 0 2px 12px rgba(196,150,58,0.3); }
     .btn-gold:focus-visible { outline: 2px solid var(--gold-h); outline-offset: 4px; }
 
     /* ── EYEBROW ── */
@@ -79,19 +80,21 @@
 
     /* ── CARD ── */
     .card {
-      background: var(--bg2);
-      border: 1px solid rgba(196,150,58,0.12);
+      background: rgba(19,19,19,0.92);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(196,150,58,0.14);
       border-radius: 10px;
-      transition: border-color 0.22s ease, transform 0.22s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.03);
+      transition: border-color 0.22s ease, box-shadow 0.22s ease;
     }
-    .card:hover { border-color: rgba(196,150,58,0.38); transform: translateY(-3px); }
+    .card:hover { border-color: rgba(196,150,58,0.45); box-shadow: 0 4px 32px rgba(196,150,58,0.1), inset 0 1px 0 rgba(255,255,255,0.05); }
 
     /* ── IMAGE TREATMENT ── */
     .img-treat {
       position: relative;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(196,150,58,0.12);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(196,150,58,0.2), inset 0 0 0 1px rgba(255,255,255,0.03);
     }
     .img-treat img { display: block; width: 100%; }
     .img-overlay {
@@ -100,14 +103,15 @@
     }
 
     /* ── GOLD BAR ── */
-    .gold-bar { display: block; width: 48px; height: 3px; background: var(--gold); border-radius: 2px; margin: 1rem auto 0; }
+    .gold-bar { display: block; width: 56px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); border-radius: 2px; margin: 1rem auto 0; }
 
     /* ── WARN BOX ── */
     .warn-box {
       border-left: 3px solid var(--gold);
-      background: rgba(196,150,58,0.06);
-      border-radius: 0 6px 6px 0;
+      background: linear-gradient(135deg, rgba(196,150,58,0.08) 0%, rgba(196,150,58,0.02) 100%);
+      border-radius: 0 8px 8px 0;
       padding: 1.25rem 1.5rem;
+      box-shadow: inset 0 0 0 1px rgba(196,150,58,0.1), 0 4px 16px rgba(0,0,0,0.2);
     }
 
     /* ── GRAIN OVERLAY ── */
@@ -120,14 +124,42 @@
     }
 
     /* ── RESPONSIVE ── */
-    .hero-grid    { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "copy-top video" "copy-bot video";
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .hero-copy-top    { grid-area: copy-top; }
+    .hero-video-wrap  { grid-area: video; align-self: center; }
+    .hero-copy-bottom { grid-area: copy-bot; }
+    .sol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "sol-title sol-img" "sol-body sol-img";
+      gap: 4rem;
+      align-items: start;
+    }
+    .sol-title { grid-area: sol-title; }
+    .sol-img   { grid-area: sol-img; align-self: center; }
+    .sol-body  { grid-area: sol-body; }
     .two-col      { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .pillar-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .video-grid   { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 780px; margin: 0 auto; }
 
     @media (max-width: 768px) {
-      .hero-grid   { grid-template-columns: 1fr; }
-      .hero-img    { order: -1; max-height: 300px; }
+      .hero-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: "copy-top" "video" "copy-bot";
+        gap: 2rem;
+      }
+      .hero-video-wrap { align-self: auto; }
+      .sol-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: "sol-title" "sol-img" "sol-body";
+        gap: 2rem;
+      }
       .two-col     { grid-template-columns: 1fr; gap: 2.5rem; }
       .pillar-grid { grid-template-columns: 1fr; }
       .hide-mobile { display: none; }
@@ -207,17 +239,17 @@
 
       <!-- Logo -->
       <div style="text-align: center; margin-bottom: 2.75rem;">
-        <img src="1images/logo-ouro.png" alt="A Tríade Prime" style="height: 68px; object-fit: contain;">
+        <img src="1images/logo-ouro.png" alt="A Tríade Prime" style="height: 68px; object-fit: contain; display: block; margin: 0 auto;">
       </div>
 
       <!-- Two columns -->
       <div class="hero-grid">
 
-        <!-- Left: copy -->
-        <div>
+        <!-- Topo esquerdo: eyebrow + headline -->
+        <div class="hero-copy-top">
           <p class="eyebrow" style="margin-bottom: 1rem;">TRÍADE PRIME - CONSULTORIA ESPECIALIZADA EM E-COMMERCE</p>
 
-          <h1 class="fd" style="line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 1.5rem; color: #fff;">
+          <h1 class="fd" style="line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 0; color: #fff;">
             <span style="font-size: clamp(1.3rem, 2.6vw, 2rem); display: block; margin-bottom: 0.2rem;">O SEU E-COMMERCE PODE ESTAR PAGANDO</span>
             <span style="font-size: clamp(2.4rem, 5.5vw, 4.2rem); display: block; color: var(--gold); line-height: 1; margin-bottom: 0.2rem;">IMPOSTO EM DOBRO</span>
             <span style="font-size: clamp(1.3rem, 2.6vw, 2rem); display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
@@ -225,7 +257,21 @@
               <img src="1images/FULL.png" alt="Mercado Livre FULL" style="height: clamp(80px, 10vw, 130px); object-fit: contain; vertical-align: middle; margin-top: 0.15rem;">
             </span>
           </h1>
+        </div>
 
+        <!-- Direita: VSL video (ocupa as 2 linhas no desktop) -->
+        <div class="hero-video-wrap" style="border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(196,150,58,0.12); position: relative;">
+          <video id="vsl-hero" controls autoplay muted playsinline style="width: 100%; display: block; background: #000;">
+            <source src="1depo/VSL.mp4" type="video/mp4">
+          </video>
+          <!-- Botão de ativar som -->
+          <button id="vsl-unmute" onclick="document.getElementById('vsl-hero').muted=false; this.style.display='none';" style="position: absolute; top: 0.9rem; right: 0.9rem; background: rgba(0,0,0,0.75); border: 1px solid rgba(196,150,58,0.6); color: #fff; font-family: 'Anton', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; padding: 0.5rem 0.9rem; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s ease, border-color 0.2s ease; z-index: 10;">
+            🔊 ATIVAR SOM
+          </button>
+        </div>
+
+        <!-- Base esquerda: textos + CTA (aparece abaixo do vídeo no mobile) -->
+        <div class="hero-copy-bottom">
           <p style="font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,0.78); margin-bottom: 1.25rem; font-weight: 600;">
             A maioria das operações no FULL não quebra pela concorrência, mas por um erro silencioso na hora de cadastrar os produtos.
           </p>
@@ -242,17 +288,6 @@
           <a href="#cta" class="btn btn-gold" style="font-size: 0.88rem; padding: 1.15rem 1.75rem; display: block; width: 100%; text-align: center;">
             QUERO PARAR DE PAGAR IMPOSTO DUPLICADO NO FULL
           </a>
-        </div>
-
-        <!-- Right: VSL video -->
-        <div class="hero-img" style="border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(196,150,58,0.12); position: relative;">
-          <video id="vsl-hero" controls autoplay muted playsinline style="width: 100%; display: block; background: #000;">
-            <source src="1depo/VSL.mp4" type="video/mp4">
-          </video>
-          <!-- Botão de ativar som -->
-          <button id="vsl-unmute" onclick="document.getElementById('vsl-hero').muted=false; this.style.display='none';" style="position: absolute; top: 0.9rem; right: 0.9rem; background: rgba(0,0,0,0.75); border: 1px solid rgba(196,150,58,0.6); color: #fff; font-family: 'Anton', sans-serif; font-size: 0.72rem; letter-spacing: 0.1em; padding: 0.5rem 0.9rem; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s ease, border-color 0.2s ease; z-index: 10;">
-            🔊 ATIVAR SOM
-          </button>
         </div>
 
       </div>
@@ -414,29 +449,32 @@
   ══════════════════════════════════════════════════════ -->
   <section style="background: radial-gradient(ellipse at 30% 50%, #3A0A0A 0%, #1A0404 50%, #0D0202 100%); padding: 5rem 0;">
     <div class="wrap">
-      <div class="two-col">
+      <div class="sol-grid">
 
-        <!-- Left: consultant photo -->
-        <div class="img-treat">
+        <!-- Título (direita desktop / topo mobile) -->
+        <div class="sol-title">
+          <p class="eyebrow" style="margin-bottom: 0.8rem;">A SOLUÇÃO</p>
+
+          <h2 class="fd" style="font-size: clamp(1.45rem, 2.8vw, 2.1rem); line-height: 1.1; margin-bottom: 0; color: #fff; letter-spacing: -0.01em;">
+            A PARAMETRIZAÇÃO FISCAL NÃO É APENAS UM <span style="color: var(--gold);">"DETALHE".</span>
+            <br>É O QUE SEPARA UMA OPERAÇÃO LUCRATIVA DE UMA QUE QUEBRA.
+          </h2>
+        </div>
+
+        <!-- Imagem (direita desktop / meio mobile) -->
+        <div class="img-treat sol-img">
           <img src="1images/casquinha.png" alt="Sobremesa Láctea vs Sorvete - NCM" style="filter: brightness(0.95) contrast(1.02);">
           <div class="img-overlay"></div>
         </div>
 
-        <!-- Right: copy -->
-        <div>
-          <p class="eyebrow" style="margin-bottom: 0.8rem;">A SOLUÇÃO</p>
-
-          <h2 class="fd" style="font-size: clamp(1.45rem, 2.8vw, 2.1rem); line-height: 1.1; margin-bottom: 1.5rem; color: #fff; letter-spacing: -0.01em;">
-            A PARAMETRIZAÇÃO FISCAL NÃO É APENAS UM <span style="color: var(--gold);">"DETALHE".</span>
-            <br>É O QUE SEPARA UMA OPERAÇÃO LUCRATIVA DE UMA QUE QUEBRA.
-          </h2>
-
+        <!-- Corpo (direita desktop / base mobile) -->
+        <div class="sol-body">
           <p style="color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; font-size: 0.88rem; font-style: italic;">
             Por que se preocupar com tantos códigos afinal?
           </p>
 
           <!-- McDonald's example -->
-          <div style="background: var(--bg2); border: 1px solid rgba(196,150,58,0.2); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 4px 24px rgba(0,0,0,0.4);">
+          <div style="background: rgba(19,19,19,0.9); border: 1px solid rgba(196,150,58,0.2); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.75rem; box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);">
             <p style="font-size: 0.68rem; letter-spacing: 0.16em; color: rgba(255,255,255,0.38); text-transform: uppercase; margin-bottom: 0.65rem;">EXEMPLO CLÁSSICO DE MERCADO</p>
             <p style="color: rgba(255,255,255,0.78); line-height: 1.78; font-size: 0.9rem; margin-bottom: 0.75rem;">
               🍦🍟 O famoso "sorvete" da rede do palhaço mudou de nome para <strong style="color: #fff;">"sobremesa láctea"</strong> apenas por uma mudança de <strong style="color: var(--gold);">NCM</strong>.
@@ -671,7 +709,7 @@
        FOOTER
   ══════════════════════════════════════════════════════ -->
   <footer style="background: var(--bg0); padding: 2.75rem 1.5rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
-    <img src="1images/logo-ouro.png" alt="A Tríade Prime" style="height: 52px; object-fit: contain; margin-bottom: 1.5rem; opacity: 0.7;">
+    <img src="1images/logo-ouro.png" alt="A Tríade Prime" style="height: 52px; object-fit: contain; display: block; margin: 0 auto 1.5rem; opacity: 0.7;">
 
     <!-- Links sociais -->
     <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
