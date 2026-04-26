@@ -1,0 +1,5 @@
+name = "parametrizacao-triadeprime"
+compatibility_date = "2025-04-26"
+
+[assets]
+directory = "."
